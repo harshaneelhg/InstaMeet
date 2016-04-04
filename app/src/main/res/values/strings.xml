@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">InstaMeet</string>
+    <string name="title_activity_sign_in">SignInActivity</string>
+    <string name="title_activity_update_profile">updateProfileActivity</string>
+    <string name="signed_in_fmt">signed in from</string>
+    <string name="loading">loading</string>
+    <string name="signed_out">Sign in with GooglePlus</string>
 </resources>

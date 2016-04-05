@@ -19,8 +19,6 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +49,6 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
 
     }
 
@@ -99,11 +96,18 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         UserGlobalData ugd = UserGlobalData.getInstance();
+        ugd.username = "harsh";
+        ugd.password = "abcd";
+        ArrayList history;
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_history) {
-            ArrayList history = new APIClient().getHistory(ugd.username, ugd.password);
+            try {
+                history = new APIClient().getHistory(ugd.username, ugd.password);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         } else if (id == R.id.nav_pending_requests) {
 
         } else if (id == R.id.nav_about_us) {

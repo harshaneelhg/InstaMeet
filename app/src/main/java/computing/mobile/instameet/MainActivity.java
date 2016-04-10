@@ -1,5 +1,6 @@
 package computing.mobile.instameet;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         UserGlobalData ugd = UserGlobalData.getInstance();
-        ugd.username = "Harsh";
+        ugd.username = "harsh";
         ugd.password = "abcd";
         ugd.email = "harsh@asu.edu";
         ugd.phone = "9898989898";
@@ -50,6 +51,11 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        try {
+            new APIClient().getHistory(ugd.username, ugd.password, getApplicationContext());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -95,19 +101,14 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        UserGlobalData ugd = UserGlobalData.getInstance();
-        ugd.username = "harsh";
-        ugd.password = "abcd";
-        ArrayList history;
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_history) {
-            try {
-                history = new APIClient().getHistory(ugd.username, ugd.password);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
+            //setContentView(R.layout.history_display_layout);
+            //NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+            //navigationView.setNavigationItemSelectedListener(this);
+            MainActivity.this.startActivity(new Intent(MainActivity.this, HistoryActivity.class));
         } else if (id == R.id.nav_pending_requests) {
 
         } else if (id == R.id.nav_about_us) {

@@ -1,5 +1,7 @@
 package computing.mobile.instameet;
 
+import android.content.Context;
+
 import com.loopj.android.http.*;
 import org.json.*;
 import java.util.ArrayList;
@@ -17,8 +19,9 @@ public class APIClient {
 
     public APIClient(){};
 
-    static ArrayList getHistory(String username, String password) throws JSONException{
+    static void getHistory(String username, String password, Context app_context) throws JSONException{
         final String uname = username;
+        final Context context = app_context;
         final ArrayList results = new ArrayList();
         RequestParams params = new RequestParams();
         params.put("username",username);
@@ -47,16 +50,15 @@ public class APIClient {
                 for (int i = 0; i < history.length(); i++) {
                     try {
                         JSONObject entry = history.getJSONObject(i);
-                        HashMap<String, String> temp = new HashMap<String, String>();
-                        temp.put("username", ((String) entry.get("user1")) == uname ? (String) entry.get("user2") : (String) entry.get("user1"));
-                        results.add(temp);
+                        String companion = ((String) entry.get("user1")).equals(uname) ? (String) entry.get("user2") : (String) entry.get("user1");
+                        DataOperator dop = new DataOperator(context,UserHistoryData.UserHistoryDataEntry.TABLE_NAME);
+                        dop.insertHistory(dop, (String)entry.get("pk_history"), companion, uname, (String)entry.get("timestamp"));
                     }catch (JSONException e){
                         e.printStackTrace();
                     }
                 }
             }
         });
-        return results;
     }
     public static void main() throws Exception{
         UserGlobalData ugd = UserGlobalData.getInstance();
@@ -65,6 +67,6 @@ public class APIClient {
         ugd.email = "harsh@asu.edu";
         ugd.phone = "9898989898";
 
-        getHistory(ugd.username, ugd.password);
+        //getHistory(ugd.username, ugd.password);
     }
 }

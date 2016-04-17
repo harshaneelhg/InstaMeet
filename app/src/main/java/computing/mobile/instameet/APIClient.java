@@ -1,6 +1,7 @@
 package computing.mobile.instameet;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.loopj.android.http.*;
 import org.json.*;
@@ -22,7 +23,6 @@ public class APIClient {
     static void getHistory(String username, String password, Context app_context) throws JSONException{
         final String uname = username;
         final Context context = app_context;
-        final ArrayList results = new ArrayList();
         RequestParams params = new RequestParams();
         params.put("username",username);
         params.put("password",password);
@@ -30,7 +30,7 @@ public class APIClient {
         InstaMeetRestClient.post("get_history/",params,new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header [] headers, JSONObject response){
-                System.out.println("Success!!");
+                System.out.println("Response received for getHistory()");
                 String status = "";
                 try {
                     status = response.getString("status");
@@ -56,6 +56,32 @@ public class APIClient {
                     }catch (JSONException e){
                         e.printStackTrace();
                     }
+                }
+            }
+        });
+    }
+    static void sendLocation(String username, String password, String location, Context appContext){
+        RequestParams params = new RequestParams();
+        params.put("username",username);
+        params.put("password",password);
+        params.put("location",location);
+        params.setContentEncoding("UTF-8");
+        InstaMeetRestClient.post("update_location",params,new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.d("API_RESPONSE","Response received for getHistory()");
+                String status = "";
+                try {
+                    status = response.getString("status");
+                    if(!("SUCCESS".equals(status))) {
+                        Log.e("API_RESPONSE","Error Updating location. Server responded with message: "+ response.getString("message"));
+                    }
+                    else{
+                        Log.d("API_RESPONSE","Updated location. Server responded with message: "+ response.getString("message"));
+                    }
+                }
+                catch (JSONException e){
+                    e.printStackTrace();
                 }
             }
         });

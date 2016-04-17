@@ -19,10 +19,6 @@ public class HistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
     }
-    @Override
-    public void onBackPressed() {
-        HistoryActivity.this.startActivity(new Intent(HistoryActivity.this, MainActivity.class));
-    }
 
     @Override
     protected void onStart() {
@@ -35,13 +31,19 @@ public class HistoryActivity extends AppCompatActivity {
         ArrayList items = new ArrayList<String>();
         ArrayAdapter adapter = new ArrayAdapter<String>(getApplicationContext(),R.layout.row_layout,R.id.rowTextView,items);
         lv.setAdapter(adapter);
-        while(cursor.moveToPrevious()){
-            adapter.add(cursor.getString(0) + "  " + cursor.getString(1));
-        }
         try {
-            adapter.add(cursor.getString(0) + "  " + cursor.getString(1));
+            String name = cursor.getString(0);
+            name = name.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();
+            items.add(0,name + "  " + cursor.getString(1));
+            adapter.notifyDataSetChanged();
         }catch (Exception e){
             e.printStackTrace();
+        }
+        while(cursor.moveToPrevious()){
+            String name = cursor.getString(0);
+            name = name.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();
+            items.add(0,name + "  " + cursor.getString(1));
+            adapter.notifyDataSetChanged();
         }
         lv.smoothScrollToPosition(0);
     }

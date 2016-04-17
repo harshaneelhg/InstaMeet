@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,10 +16,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    GPSTracker gps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +55,14 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
+        ((TextView)findViewById(R.id.mainNameView)).setText("Hello " + ugd.username + "!");
         try {
             new APIClient().getHistory(ugd.username, ugd.password, getApplicationContext());
         }catch (Exception e){
             e.printStackTrace();
         }
+        gps = new GPSTracker(MainActivity.this, this);
+        Log.d("GPS", "GPS started...");
     }
 
     @Override
@@ -105,9 +112,6 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_history) {
-            //setContentView(R.layout.history_display_layout);
-            //NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-            //navigationView.setNavigationItemSelectedListener(this);
             MainActivity.this.startActivity(new Intent(MainActivity.this, HistoryActivity.class));
         } else if (id == R.id.nav_pending_requests) {
 

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/app_bar_main"
+    tools:context="computing.mobile.instameet.MainActivity"
+    android:id="@+id/n">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/mainNameView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/colorPrimaryDark" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Do you like eating Italian food?"
+        android:id="@+id/cbInterest1"
+        android:layout_marginTop="60dp"
+        android:textAlignment="center"
+        android:checked="false"
+        android:onClick="onInterestToggle1"
+        android:textSize="20dp"
+        android:layout_below="@+id/mainNameView"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/cbInterest3" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Do like going to clubs?"
+        android:id="@+id/cbInterest2"
+        android:textAlignment="center"
+        android:checked="false"
+        android:onClick="onInterestToggle2"
+        android:layout_below="@+id/cbInterest1"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/cbInterest4"
+        android:layout_alignEnd="@+id/cbInterest1"
+        android:textSize="20dp" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Do you like Indian cuisine?"
+        android:id="@+id/cbInterest3"
+        android:textAlignment="center"
+        android:checked="false"
+        android:onClick="onInterestToggle3"
+        android:layout_below="@+id/cbInterest2"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:textSize="20dp" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Do you like going for long drives?"
+        android:id="@+id/cbInterest5"
+        android:textAlignment="center"
+        android:checked="false"
+        android:onClick="onInterestToggle5"
+        android:layout_below="@+id/cbInterest4"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/cbInterest4"
+        android:textSize="20dp" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Are you interested in visiting religious places?"
+        android:id="@+id/cbInterest6"
+        android:textAlignment="center"
+        android:checked="false"
+        android:onClick="onInterestToggle6"
+        android:layout_below="@+id/cbInterest5"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:textSize="20dp" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Do you like spending time with group of people?"
+        android:id="@+id/cbInterest4"
+        android:textAlignment="center"
+        android:checked="false"
+        android:onClick="onInterestToggle4"
+        android:layout_below="@+id/cbInterest3"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/cbInterest3"
+        android:textSize="20dp" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Do you like house parties?"
+        android:id="@+id/cbInterest7"
+        android:textAlignment="center"
+        android:checked="false"
+        android:onClick="onInterestToggle7"
+        android:textSize="20dp"
+        android:layout_below="@+id/cbInterest6"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Do like going out with pets?"
+        android:id="@+id/cbInterest8"
+        android:textAlignment="center"
+        android:checked="false"
+        android:onClick="onInterestToggle8"
+        android:layout_below="@+id/cbInterest7"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/cbInterest7"
+        android:textSize="20dp" />
+
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Are you interested in concerts?"
+        android:id="@+id/cbInterest10"
+        android:textAlignment="center"
+        android:checked="false"
+        android:onClick="onInterestToggle10"
+        android:layout_below="@+id/cbInterest9"
+        android:layout_centerHorizontal="true"
+        android:textSize="20dp" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Are you interested in sports?"
+        android:id="@+id/cbInterest9"
+        android:textAlignment="center"
+        android:checked="false"
+        android:onClick="onInterestToggle9"
+        android:layout_below="@+id/cbInterest8"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/cbInterest8"
+        android:textSize="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Help us to know more about you!"
+        android:id="@+id/textView"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="20dp"
+        android:layout_below="@+id/mainNameView"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>

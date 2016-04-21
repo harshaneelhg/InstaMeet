@@ -86,6 +86,12 @@ public class SignInActivity extends AppCompatActivity implements
         if (result.isSuccess()) {
             GoogleSignInAccount acct = result.getSignInAccount();
             mStatusTextView.setText(acct.getEmail());
+            UserGlobalData ugd = UserGlobalData.getInstance();
+            ugd.username = acct.getEmail();
+            ugd.password = acct.getId();
+            ugd.email = acct.getEmail();
+            ugd.displayName = acct.getDisplayName()==null ? acct.getDisplayName().split("@")[0] : acct.getDisplayName();
+            new APIClient().registerUser(ugd.username, ugd.password, ugd.displayName);
             updateUI(true);
         } else {
             updateUI(false);
@@ -133,9 +139,7 @@ public class SignInActivity extends AppCompatActivity implements
     }
     private void updateUI(boolean signedIn) {
         if (signedIn) {
-            findViewById(R.id.sign_in_button).setVisibility(View.GONE);
-            findViewById(R.id.update_button).setVisibility(View.VISIBLE);
-            findViewById(R.id.sign_out_button).setVisibility(View.VISIBLE);
+            SignInActivity.this.startActivity(new Intent(SignInActivity.this, MainActivity.class));
         } else {
             mStatusTextView.setText("Signed out...");
             findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);

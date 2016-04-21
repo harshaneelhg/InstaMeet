@@ -1,14 +1,10 @@
 package computing.mobile.instameet;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -29,7 +25,7 @@ public class HistoryActivity extends AppCompatActivity {
         cursor.moveToLast();
         ListView lv = (ListView) this.findViewById(R.id.historyListView);
         ArrayList items = new ArrayList<String>();
-        ArrayAdapter adapter = new ArrayAdapter<String>(getApplicationContext(),R.layout.row_layout,R.id.rowTextView,items);
+        ArrayAdapter adapter = new ArrayAdapter<String>(getApplicationContext(),R.layout.history_row_layout,R.id.rowTextView,items);
         lv.setAdapter(adapter);
         try {
             String name = cursor.getString(0);

@@ -24,7 +24,7 @@ public class DataOperator extends SQLiteOpenHelper {
                 + UserHistoryData.UserHistoryDataEntry.USERNAME + " CHARACTER, "
                 + UserHistoryData.UserHistoryDataEntry.COMPANION_NAME + " CHARACTER, "
                 + UserHistoryData.UserHistoryDataEntry.TIMESTAMP + " CHARACTER);";
-        SQLiteDatabase.openOrCreateDatabase("/data/data/computing.mobile.instameet/" + UserHistoryData.UserHistoryDataEntry.DATABASE_NAME, null);
+        SQLiteDatabase.openOrCreateDatabase(Environment.getExternalStorageDirectory()+ "/" + UserHistoryData.UserHistoryDataEntry.DATABASE_NAME, null);
     }
 
     public void insertHistory(DataOperator dop, String pk_history, String companion_name, String username, String timestamp){

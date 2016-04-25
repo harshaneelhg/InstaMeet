@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         UserGlobalData ugd = UserGlobalData.getInstance();
-        ugd.username = "Mac";
+        ugd.username = "Harsh";
         ugd.password = "abcd";
         ugd.email = "harsh@asu.edu";
         ugd.phone = "9898989898";
@@ -68,6 +68,8 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
         setInterests(ugd);
+        RequestCheckerFlag.getInstance().setIsAppFinished(false);
+        new APIClient().checkPendingRequests(ugd.username,ugd.password,getApplicationContext());
         gps = new GPSTracker(MainActivity.this, this);
         Log.d("GPS", "GPS started...");
         Location l  = gps.getLocation();
@@ -76,7 +78,14 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        setInterests(UserGlobalData.getInstance());
+        UserGlobalData ugd = UserGlobalData.getInstance();
+        setInterests(ugd);
+        try {
+            new APIClient().getHistory(ugd.username, ugd.password, getApplicationContext());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        new APIClient().checkPendingRequests(ugd.username,ugd.password,getApplicationContext());
     }
 
     @Override
@@ -117,6 +126,13 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        RequestCheckerFlag reqFlag = RequestCheckerFlag.getInstance();
+        reqFlag.setIsAppFinished(true);
+    }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -131,6 +147,7 @@ public class MainActivity extends AppCompatActivity
             UserGlobalData ugd = UserGlobalData.getInstance();
             new APIClient().findUsers(ugd.username,ugd.password,MainActivity.this);
         } else if (id == R.id.nav_pending_requests) {
+            MainActivity.this.startActivity(new Intent(MainActivity.this, RequestsActivity.class));
 
         } else if (id == R.id.nav_share) {
 

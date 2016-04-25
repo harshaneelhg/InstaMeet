@@ -8,7 +8,7 @@ import com.loopj.android.http.RequestParams;
  * Created by harsh on 4/3/2016.
  */
 public class InstaMeetRestClient{
-    private static final String API_BASE_URL = "http://10.0.2.2:8001/api/instameet/";
+    private static final String API_BASE_URL = "http://107.170.28.184:8001/api/instameet/";
     private static AsyncHttpClient client = new AsyncHttpClient();
 
     public static void get(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {

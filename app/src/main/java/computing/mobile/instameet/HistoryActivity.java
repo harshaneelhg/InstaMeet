@@ -19,7 +19,7 @@ public class HistoryActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        DataOperator dop = new DataOperator(getApplicationContext(),UserHistoryData.UserHistoryDataEntry.TABLE_NAME);
+        UserDataOperator dop = new UserDataOperator(getApplicationContext(),UserHistoryData.UserHistoryDataEntry.TABLE_NAME);
         UserGlobalData ugd = UserGlobalData.getInstance();
         cursor = dop.getHistory(dop, ugd.username);
         cursor.moveToLast();

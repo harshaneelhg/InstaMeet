@@ -11,12 +11,12 @@ import android.util.Log;
 /**
  * Created by harsh on 4/7/2016.
  */
-public class DataOperator extends SQLiteOpenHelper {
+public class UserDataOperator extends SQLiteOpenHelper {
     public static int database_version = 1;
     private static String table_name = "";
     public String CREATE_QUERY = "";
 
-    public DataOperator(Context context, String table_name) {
+    public UserDataOperator(Context context, String table_name) {
         super(context, UserHistoryData.UserHistoryDataEntry.DATABASE_NAME, null, database_version);
         this.table_name = table_name;
         this.CREATE_QUERY = "CREATE TABLE IF NOT EXISTS " + table_name + " ("
@@ -27,7 +27,7 @@ public class DataOperator extends SQLiteOpenHelper {
         SQLiteDatabase.openOrCreateDatabase(Environment.getExternalStorageDirectory()+ "/" + UserHistoryData.UserHistoryDataEntry.DATABASE_NAME, null);
     }
 
-    public void insertHistory(DataOperator dop, String pk_history, String companion_name, String username, String timestamp){
+    public void insertHistory(UserDataOperator dop, String pk_history, String companion_name, String username, String timestamp){
         SQLiteDatabase sqdb = dop.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(UserHistoryData.UserHistoryDataEntry.PK_HISTORY, pk_history);
@@ -38,7 +38,7 @@ public class DataOperator extends SQLiteOpenHelper {
         Log.d("DB_INSERT", "Row inserted:(" + pk_history + ", " + companion_name + ", " + username + ", " + timestamp + ") Status:" + k);
     }
 
-    public Cursor getHistory(DataOperator dop, String username){
+    public Cursor getHistory(UserDataOperator dop, String username){
         SQLiteDatabase sqdb = dop.getReadableDatabase();
         String [] columns = {UserHistoryData.UserHistoryDataEntry.COMPANION_NAME, UserHistoryData.UserHistoryDataEntry.TIMESTAMP};
         Cursor cursor = sqdb.query(this.table_name, columns, UserHistoryData.UserHistoryDataEntry.USERNAME + "=\"" + username+"\"" , null, null, null, null);

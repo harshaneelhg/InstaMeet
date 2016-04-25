@@ -2,14 +2,11 @@ package computing.mobile.instameet;
 
 import android.content.Context;
 import android.content.Intent;
-import android.text.StaticLayout;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.loopj.android.http.*;
 import org.json.*;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -52,7 +49,7 @@ public class APIClient {
                     try {
                         JSONObject entry = history.getJSONObject(i);
                         String companion = ((String) entry.get("user1")).equals(uname) ? (String) entry.get("user2") : (String) entry.get("user1");
-                        DataOperator dop = new DataOperator(context,UserHistoryData.UserHistoryDataEntry.TABLE_NAME);
+                        UserDataOperator dop = new UserDataOperator(context,UserHistoryData.UserHistoryDataEntry.TABLE_NAME);
                         dop.insertHistory(dop, (String)entry.get("pk_history"), companion, uname, (String)entry.get("timestamp"));
                     }catch (JSONException e){
                         e.printStackTrace();
@@ -255,13 +252,79 @@ public class APIClient {
         });
     }
 
-    public static void main() throws Exception{
-        UserGlobalData ugd = UserGlobalData.getInstance();
-        ugd.username = "harsh";
-        ugd.password = "abcd";
-        ugd.email = "harsh@asu.edu";
-        ugd.phone = "9898989898";
+    static void checkPendingRequests(final String username, String password, final Context appContex){
+        RequestParams params = new RequestParams();
+        params.put("username",username);
+        params.put("password", password);
+        params.setContentEncoding("UTF-8");
+        InstaMeetRestClient.post("check_request_update/",params, new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                //super.onSuccess(statusCode, headers, response);
+                Log.d("API_RESPONSE", "Response received for register_user()");
+                String status = "";
+                try {
+                    status = response.getString("status");
+                    if("SUCCESS".equals(status)) {
+                        Log.d("API_RESPONSE","Requests obtained. Server responded with message: "+ response.getString("message"));
+                        JSONArray requests = response.getJSONArray("request_list");
+                        for(int i=0; i<requests.length(); i++){
+                            String pk = ((JSONObject)requests.get(i)).getString("pk_request");
+                            String user1 = ((JSONObject)requests.get(i)).getString("username");
+                            String user2 = username;
+                            String reqStatus = "PENDING";
+                            String email = ((JSONObject)requests.get(i)).getString("email");
+                            String phone = ((JSONObject)requests.get(i)).getString("phone");
+                            try {
+                                UserHistoryOperator dop = new UserHistoryOperator(appContex, UserRequestData.UserRequestDataEntry.TABLE_NAME);
+                                dop.insertRequest(dop, pk, user1, user2, reqStatus, email, phone);
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
+                        }
 
-        //getHistory(ugd.username, ugd.password);
+                    }
+                    else if("NO_NEW_REQUESTS".equals(status)){
+                        Log.e("API_RESPONSE","No new requests. Server responded with message: "+ response.getString("message"));
+                    }
+                    else{
+                        Log.e("API_RESPONSE","Error checking requests. Server responded with message: "+ response.getString("message"));
+                    }
+                }
+                catch (JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    static void updateRequest(final String user1, final String user2, String password, final String newStatus,final Context appContext){
+        RequestParams params = new RequestParams();
+        params.put("user1", user1);
+        params.put("user2", user2);
+        params.put("status", newStatus);
+        params.put("password", password);
+        params.setContentEncoding("UTF-8");
+        InstaMeetRestClient.post("update_request/",params,new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.d("API_RESPONSE", "Response received for update_request()");
+                String status = "";
+                try{
+                    status = response.getString("status");
+                    if("SUCCESS".equals(status)){
+                        Log.d("API_RESPONSE", "Request updated...");
+                        UserHistoryOperator dop = new UserHistoryOperator(appContext, UserRequestData.UserRequestDataEntry.TABLE_NAME);
+                        dop.updateStatus(dop, user1, user2, newStatus);
+                    }
+                    else{
+                        Log.e("API_RESPONSE", "Error updating request... Server responded with message: "+response.getString("message"));
+                    }
+                }
+                catch (JSONException je){
+                    je.printStackTrace();
+                }
+            }
+        });
     }
 }

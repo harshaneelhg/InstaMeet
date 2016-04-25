@@ -36,7 +36,8 @@
             -->
         </activity>
         <activity android:name=".ProfileActivity" />
-        <activity android:name=".NearbyUsersActivity"></activity>
+        <activity android:name=".NearbyUsersActivity" />
+        <activity android:name=".RequestsActivity"></activity>
     </application>
 
 </manifest>

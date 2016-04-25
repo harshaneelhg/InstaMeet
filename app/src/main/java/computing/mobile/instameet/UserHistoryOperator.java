@@ -26,7 +26,13 @@ public class UserHistoryOperator extends SQLiteOpenHelper {
                 + UserRequestData.UserRequestDataEntry.STATUS + " CHARACTER, "
                 + UserRequestData.UserRequestDataEntry.USER_EMAIL + " CHARACTER, "
                 + UserRequestData.UserRequestDataEntry.USER_PHONE + " CHARACTER);";
-        SQLiteDatabase.openOrCreateDatabase(Environment.getExternalStorageDirectory()+ "/com.mobile.instameet/" + UserRequestData.UserRequestDataEntry.DATABASE_NAME, null);
+        try {
+            Runtime.getRuntime().exec("chmod 777 " + Environment.getExternalStorageDirectory().getAbsolutePath());
+            SQLiteDatabase.openOrCreateDatabase(Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + UserRequestData.UserRequestDataEntry.DATABASE_NAME, null);
+        }
+        catch(Exception exp){
+
+        }
     }
 
     public Cursor getRequest(UserHistoryOperator dop, String username, String status){

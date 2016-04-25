@@ -118,6 +118,7 @@ Token Secret 	11nx56ticbpKYeCE1vEJYywX4vM
                     parameterLsit.city = "Tempe";
                 }
                 params.put("sort", "2");
+                parameterLsit.params = params;
                 Search sch = new Search();
                 sch.execute(parameterLsit);
                 try {

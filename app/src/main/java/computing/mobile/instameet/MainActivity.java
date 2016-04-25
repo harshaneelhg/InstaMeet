@@ -1,10 +1,13 @@
 package computing.mobile.instameet;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -26,21 +29,19 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     GPSTracker gps;
-
+    UserGlobalData ugd = UserGlobalData.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        UserGlobalData ugd = UserGlobalData.getInstance();
-        ugd.username = "Harsh";
+     /*   ugd.username = "Harsh";
         ugd.password = "abcd";
         ugd.email = "harsh@asu.edu";
-        ugd.phone = "9898989898";
+        ugd.phone = "9898989898";*/
         ugd.location = "0.1,0.1";
-        ugd.displayName = "MacBook_Pro";
+        //ugd.displayName = "MacBook_Pro";
         ugd.discover = true;
         ugd.interests = new int[10];
 
@@ -69,12 +70,34 @@ public class MainActivity extends AppCompatActivity
         }
         setInterests(ugd);
         RequestCheckerFlag.getInstance().setIsAppFinished(false);
-        new APIClient().checkPendingRequests(ugd.username,ugd.password,getApplicationContext());
-        gps = new GPSTracker(MainActivity.this, this);
-        Log.d("GPS", "GPS started...");
-        Location l  = gps.getLocation();
-    }
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
 
+        new APIClient().checkPendingRequests(ugd.username,ugd.password,getApplicationContext());
+
+        /*gps = new GPSTracker(MainActivity.this, this);
+        Log.d("GPS", "GPS started...");
+        Location l  = gps.getLocation();*/
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 1: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    GPSTracker gps = new GPSTracker(MainActivity.this, this);
+                    Log.d("GPS", "GPS started...");
+                    Location l = gps.getLocation();
+                    if (l != null) {
+                        ugd.location = Double.toString(l.getLatitude()) + " " + Double.toString(l.getLongitude());
+                    }
+                } else {
+                    ugd.location = null;
+                }
+                return;
+            }
+        }
+    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -154,8 +177,10 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_send) {
 
         }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        else if(id == R.id.nav_events){
+          MainActivity.this.startActivity(new Intent(MainActivity.this,EventsActivity.class));
+        }
+    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

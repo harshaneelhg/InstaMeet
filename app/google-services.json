@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_id": "instameet-2cedd",
+    "project_number": "718063048841",
+    "name": "InstaMeet"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:718063048841:android:28c40a82648a31c3",
+        "client_id": "android:computing.mobile.instameet",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "computing.mobile.instameet",
+          "certificate_hash": []
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "718063048841-cb0qv58p7ibfvs4gfolecujg6gsv4rn5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "computing.mobile.instameet",
+            "certificate_hash": "EC5CFC688FCFF621B1D3374B7ABF66F7659C0801"
+          }
+        },
+        {
+          "client_id": "718063048841-u0iujh7g3c4oh2etg3veqtahpi3e3qgl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": ["AIzaSyArbuutiZ6Kx1U2aQVddkAFj0guxlMaN8M"],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "cloud_messaging_service": {
+          "status": 1,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 2
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
+}

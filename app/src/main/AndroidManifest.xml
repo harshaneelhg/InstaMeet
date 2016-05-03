@@ -17,8 +17,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".HistoryActivity" />
         <activity android:name=".SignInActivity">
             <intent-filter>
@@ -29,10 +28,14 @@
         </activity>
         <activity android:name=".ProfileActivity" />
         <activity android:name=".NearbyUsersActivity" />
-        <activity android:name=".RequestsActivity"></activity>
+        <activity android:name=".RequestsActivity" />
         <activity
             android:name=".EventsActivity"
             android:label="@string/title_activity_events"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".RewardsActivity"
+            android:label="@string/title_activity_rewards"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

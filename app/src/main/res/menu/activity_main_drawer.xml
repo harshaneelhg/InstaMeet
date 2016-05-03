@@ -19,6 +19,8 @@
             android:icon="@drawable/ic_menu_send"
             android:title="Pending Requests" />
         <item android:id="@+id/nav_events" android:icon="@drawable/ic_menu_events" android:title="Events"/>
+        <item android:id="@+id/nav_singout"  android:title="SingOut"/>
+        <item android:id="@+id/nav_rewards" android:title="Rewards"/>
     </group>
 
     <item android:title="Communicate">

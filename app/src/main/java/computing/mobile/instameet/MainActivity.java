@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity
         ugd.password = "abcd";
         ugd.email = "harsh@asu.edu";
         ugd.phone = "9898989898";*/
-        ugd.location = "0.1,0.1";
+     //   ugd.location = "0.1,0.1";
         //ugd.displayName = "MacBook_Pro";
         ugd.discover = true;
         ugd.interests = new int[10];
@@ -172,13 +172,22 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_pending_requests) {
             MainActivity.this.startActivity(new Intent(MainActivity.this, RequestsActivity.class));
 
-        } else if (id == R.id.nav_share) {
+        }
+        else if(id == R.id.nav_rewards){
+            MainActivity.this.startActivity(new Intent(MainActivity.this, RewardsActivity.class));
+        }
+        else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
 
         }
         else if(id == R.id.nav_events){
           MainActivity.this.startActivity(new Intent(MainActivity.this,EventsActivity.class));
+        }
+        else if(id == R.id.nav_singout){
+            UserGlobalData ugd = UserGlobalData.getInstance();
+            ugd.isSignOut = true;
+            MainActivity.this.startActivity(new Intent(MainActivity.this,SignInActivity.class));
         }
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

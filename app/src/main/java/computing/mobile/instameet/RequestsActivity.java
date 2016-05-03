@@ -27,7 +27,7 @@ public class RequestsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_requests);
         RequestUserTracker.getInstance().flushMap();
         UserHistoryOperator dop = new UserHistoryOperator(getApplicationContext(),UserRequestData.UserRequestDataEntry.TABLE_NAME);
-        UserGlobalData ugd = UserGlobalData.getInstance();
+        final UserGlobalData ugd = UserGlobalData.getInstance();
         cursor = dop.getRequest(dop, ugd.username, "PENDING");
         cursor.moveToLast();
         ListView lv = (ListView) this.findViewById(R.id.listViewRequests);
@@ -48,6 +48,7 @@ public class RequestsActivity extends AppCompatActivity {
                 acceptButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        ugd.rewards += 25;
                         new APIClient().updateRequest(RequestUserTracker.getInstance().get(position+"").split("::")[0],UserGlobalData.getInstance().username,UserGlobalData.getInstance().password,"ACCEPTED",getApplicationContext());
                     }
                 });

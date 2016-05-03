@@ -25,7 +25,7 @@ public class SignInActivity extends AppCompatActivity implements
         View.OnClickListener {
     private static final String TAG = "SignInActivity";
     private static final int RC_SIGN_IN = 9001;
-    private GoogleApiClient mGoogleApiClient;
+    private static GoogleApiClient mGoogleApiClient;
     private TextView mStatusTextView;
     private ProgressDialog mProgressDialog;
     @Override
@@ -83,18 +83,28 @@ public class SignInActivity extends AppCompatActivity implements
 
     private void handleSignInResult(GoogleSignInResult result) {
         Log.d(TAG, "handleSignInResult:" + result.isSuccess());
-        if (result.isSuccess()) {
-            GoogleSignInAccount acct = result.getSignInAccount();
-            mStatusTextView.setText(acct.getEmail());
-            UserGlobalData ugd = UserGlobalData.getInstance();
-            ugd.username = acct.getEmail();
-            ugd.password = acct.getId();
-            ugd.email = acct.getEmail();
-            ugd.displayName = acct.getDisplayName()==null ? acct.getDisplayName().split("@")[0] : acct.getDisplayName();
-            new APIClient().registerUser(ugd.username, ugd.password, ugd.displayName);
-            updateUI(true);
-        } else {
-            updateUI(false);
+        UserGlobalData ugd = UserGlobalData.getInstance();
+        try {
+            if (result.isSuccess()) {
+                if (ugd.isSignOut) {
+                    ugd.isSignOut = false;
+                    signOut();
+                } else {
+                    GoogleSignInAccount acct = result.getSignInAccount();
+                    mStatusTextView.setText(acct.getEmail());
+                    ugd.username = acct.getEmail();
+                    ugd.password = acct.getId();
+                    ugd.email = acct.getEmail();
+                    ugd.displayName = acct.getDisplayName() == null ? acct.getDisplayName().split("@")[0] : acct.getDisplayName();
+                    new APIClient().registerUser(ugd.username, ugd.password, ugd.displayName);
+                    updateUI(true);
+                }
+            } else {
+                updateUI(false);
+            }
+        }
+        catch (Exception exp){
+            String m = exp.getMessage();
         }
     }
     private void signIn() {
@@ -107,6 +117,14 @@ public class SignInActivity extends AppCompatActivity implements
                 new ResultCallback<Status>() {
                     @Override
                     public void onResult(Status status) {
+                        mGoogleApiClient.clearDefaultAccountAndReconnect().setResultCallback(
+                                new ResultCallback<Status>() {
+                                    @Override
+                                    public void onResult(Status status) {
+                                        mGoogleApiClient.disconnect();
+                                    }
+                                }
+                        );
                         updateUI(false);
                     }
                 });
@@ -138,10 +156,11 @@ public class SignInActivity extends AppCompatActivity implements
         }
     }
     private void updateUI(boolean signedIn) {
+        UserGlobalData ugd = UserGlobalData.getInstance();
         if (signedIn) {
             SignInActivity.this.startActivity(new Intent(SignInActivity.this, MainActivity.class));
         } else {
-            mStatusTextView.setText("Signed out...");
+            mStatusTextView.setText("Sign in with GooglePlus");
             findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
             findViewById(R.id.update_button).setVisibility(View.GONE);
             findViewById(R.id.sign_out_button).setVisibility(View.GONE);

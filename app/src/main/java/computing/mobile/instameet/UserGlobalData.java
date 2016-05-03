@@ -13,6 +13,8 @@ public class UserGlobalData {
     public boolean discover;
     public boolean locSharing;
     public int[] interests;
+    public boolean isSignOut;
+    public int rewards = 0;
 
     protected UserGlobalData(){
         interests = new int[N_INTERESTS];

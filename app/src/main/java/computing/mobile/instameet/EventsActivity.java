@@ -56,12 +56,15 @@ Token Secret 	11nx56ticbpKYeCE1vEJYywX4vM
         btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Perform action on click
+                UserGlobalData ugd = UserGlobalData.getInstance();
+                ugd.rewards += 5;
+
                 RadioButton rbtn = (RadioButton) findViewById(rgroup.getCheckedRadioButtonId());
                 TextView txtView = (TextView) findViewById(R.id.eventsTextView);
                 Paramters parameterLsit = new Paramters();
                 Map<String, String> params = new HashMap<>();
                 String txt = rbtn.getText().toString();
-                UserGlobalData ugd = UserGlobalData.getInstance();
+
                 if (txt.equals("Location")) {
                     if(ugd.location == null){
                         Context context = getApplicationContext();
